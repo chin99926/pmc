@@ -1,5 +1,5 @@
 # Pokemon status calculator <sub>Sword/Shield</sub>
-This is a Python-based status calculator for Pokemon Sword/Shield with CLI. To start, run pkc.py to enter the main program.
+This is a Python-based status calculator for Pokemon Sword/Shield with CLI. To start, run pmc.py to enter the main program.
 
 ## Features
 Search Pokemons by (Mandarin) names and calculate stat or individual values based on given information.

@@ -1,0 +1,7 @@
+# VS code environment
+__pycache__/*
+.venv/*
+.vscode/*
+
+# Local spec file
+all_spec.html

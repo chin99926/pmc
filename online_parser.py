@@ -1,10 +1,12 @@
 from typing import Dict
+from pathlib import Path
 from bs4 import BeautifulSoup
 import urllib.parse
 import urllib.request
 import json
 
 
+default_spec_dir = 'data'
 default_spec_file = 'spec.json'
 
 
@@ -12,13 +14,15 @@ class OnlineParser:
 
     spec_url = 'https://wiki.52poke.com/zh-hant/' + urllib.parse.quote('種族值列表（第八世代）')
 
-    def __init__(self, spec_file=default_spec_file) -> None:
+    def __init__(self):
         # Get html online
         fp = urllib.request.urlopen(OnlineParser.spec_url)
         self.soup = BeautifulSoup(fp, 'html.parser')
+        self.path = default_spec_dir + '/' + default_spec_file
         fp.close()
-        # Save to local csv file
-        self.spec_file = spec_file
+
+    def is_pokemon_spec_exist(self):
+        return Path(self.path).exists()
 
     def get_pokemon_spec_dict(self) -> Dict:
         pm_dict = dict()
@@ -46,17 +50,18 @@ class OnlineParser:
         return pm_dict
 
     def save_pokemon_spec_file(self, pm_dict) -> None:
-        with open(self.spec_file, 'w', encoding='utf-8') as jsonfile:
+        Path(default_spec_dir).mkdir(parents=True, exist_ok=True)
+        with open(self.path, 'w', encoding='utf-8') as jsonfile:
             json.dump(pm_dict, jsonfile)
 
 
 class JsonParser:
     
-    def __init__(self, spec_file=default_spec_file) -> None:
-        self.spec_file = spec_file
+    def __init__(self):
+        self.path = default_spec_dir + '/' + default_spec_file
 
     def get_pokemon_spec_dict(self) -> Dict:
-        with open(self.spec_file, encoding='utf-8') as jsonfile:
+        with open(self.path, encoding='utf-8') as jsonfile:
             pm_dict = json.load(jsonfile)
         return pm_dict
 
